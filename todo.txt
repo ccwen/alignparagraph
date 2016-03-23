@@ -1,0 +1,14 @@
+Goal
+
+input parallel text
+automatic align paragraph
+
+mark parallel word
+
+load XML
+find out paragraph breaking tag, build markup.
+align 
+
+
+
+load/save external markup
