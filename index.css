@@ -4,3 +4,4 @@ body {margin:0px;}
 .hl0 {color:red;}
 
 .dragging {background:pink}
+span[contentEditable="true"] {background:yellow}

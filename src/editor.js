@@ -6,18 +6,34 @@ var SortableListItem=require("./sortableitem");
 
 var Editor=React.createClass({
 	getInitialState:function(){
-		return {data:{items:this.props.data}};
+		return {data:{items:this.props.data.get()}};
 	}
-  ,sort: function(items, dragging) {
-    var data = this.props.data;
-    data.items = items;
-    data.dragging = dragging;
+	,update:function(){
+  	var data=this.state.data;
+  	data.items=this.props.data.get();
     this.setState({data: data});
+  }
+  ,breakup:function(i,at){
+  	this.props.data.breakup(i,at);
+  	this.update();
+  }
+  ,move:function(i,direction) {
+  	this.props.data.move(i,direction);
+  	this.update();
+  }
+  ,join:function(i) {
+  	this.props.data.join(i);
+  	this.update();
   }
 	,render:function(){
 		
 		  return E("div",{},this.state.data.items.map(function(item, i) {
-	      return E(SortableListItem,{ sort:this.sort, data:this.state.data,key:i,"data-id":i,item:item})
+	      return E(SortableListItem,{ 
+	      	breakup:this.breakup,
+	      	move:this.move,
+	      	data:this.state.data,
+	      	join:this.join,
+	      	key:i,"data-id":item[0],item:item})
    		},this));
 	}
 });

@@ -11,71 +11,111 @@ ksanagap.boot("alignparagraph",function(){
 	var Main=React.createElement(require("./src/main.jsx"));
 	ksana.mainComponent=ReactDOM.render(Main,document.getElementById("main"));
 });
-},{"./src/main.jsx":"C:\\ksana2015\\alignparagraph\\src\\main.jsx","ksana2015-webruntime/ksanagap":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\ksanagap.js","ksana2015-webruntime/livereload":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\livereload.js","react":"react","react-dom":"react-dom"}],"C:\\ksana2015\\alignparagraph\\model\\chinese.js":[function(require,module,exports){
-var raw=require('../data/chinese');
-var items=raw.replace(/[。！？」]+/g,function(m){
-	return m+"\n";
-}).split("\n");
+},{"./src/main.jsx":"C:\\ksana2015\\alignparagraph\\src\\main.jsx","ksana2015-webruntime/ksanagap":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\ksanagap.js","ksana2015-webruntime/livereload":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\livereload.js","react":"react","react-dom":"react-dom"}],"C:\\ksana2015\\alignparagraph\\model\\breaktext.js":[function(require,module,exports){
+var reorder=function(items,order) {
+	return items.map(function(item,idx){
+			return items[order[idx]]
+	});
+}
+var get=function(){
+	var out=[],prev=0;
+	for (var i=0;i<this.breakpoints.length;i++) {
+		out.push([out.length,this.raw.substring(prev,this.breakpoints[i])]);
+		prev=this.breakpoints[i];
+	}
+	out.push([out.length,this.raw.substr(this.breakpoints[this.breakpoints.length-1])]);
 
-module.exports=items.map(function(m,idx){
-	return [idx+1,m];
-})
-
-},{"../data/chinese":"C:\\ksana2015\\alignparagraph\\data\\chinese.js"}],"C:\\ksana2015\\alignparagraph\\model\\tibetan.js":[function(require,module,exports){
-var raw=require('../data/tibetan');
-var items=raw.replace(/[ །]+/g,function(m){
-	return m+"\n";
-}).split("\n");
-
-module.exports=items.map(function(m,idx){
-	return [idx+1,m];
-})
-
-},{"../data/tibetan":"C:\\ksana2015\\alignparagraph\\data\\tibetan.js"}],"C:\\ksana2015\\alignparagraph\\node_modules\\react-sortable\\src\\Sortable.js":[function(require,module,exports){
-var Sortable = {
-
-  update: function(to, from) {
-    var data = this.props.data.items;
-    data.splice(to, 0, data.splice(from,1)[0]);
-    this.props.sort(data, to);
-  },
-  sortEnd: function() {
-    this.props.sort(this.props.data.items, undefined);
-  },
-  sortStart: function(e) {
-    this.dragged = e.currentTarget.dataset ?
-      e.currentTarget.dataset.id :
-      e.currentTarget.getAttribute('data-id');
-    e.dataTransfer.effectAllowed = 'move';
-    try {
-      e.dataTransfer.setData('text/html', null);
-    } catch (ex) {
-      e.dataTransfer.setData('text', '');
-    }
-  },
-  move: function(over,append) {
-    var to = Number(over.dataset.id);
-    var from = this.props.data.dragging != undefined ? this.props.data.dragging : Number(this.dragged);
-    if(append) to++;
-    if(from < to) to--;
-    this.update(to,from);
-  },
-  dragOver: function(e) {
-    e.preventDefault();
-    var over = e.currentTarget
-    var relX = e.clientX - over.getBoundingClientRect().left;
-    var relY = e.clientY - over.getBoundingClientRect().top;
-    var height = over.offsetHeight / 2;
-    var placement = this.placement ? this.placement(relX, relY, over) : relY > height
-    this.move(over, placement);
-  },
-  isDragging: function() {
-    return this.props.data.dragging == this.props["data-id"];
-  }
+	return reorder(out,this.order);
+}
+var init=function(sep){
+	this.breakpoints=[];
+	this.order=[];
+	var i=0;
+	this.raw.replace(sep,function(m,idx){
+		this.breakpoints.push(idx+m.length);
+		this.order.push(i++);
+	}.bind(this));
+	this.order.push(i);
 }
 
-module.exports = Sortable;
-},{}],"C:\\ksana2015\\alignparagraph\\src\\editor.js":[function(require,module,exports){
+var breakup=function(r,at){
+		var rowstart=this.breakpoints[r-1]||0;
+		var newbreakpoint=rowstart+at;
+
+		this.breakpoints.splice(r,0,newbreakpoint);
+
+		var i=this.order.indexOf(r);
+		this.order=this.order.map(function(o){
+			return o>r?o+1:o;
+		})
+		this.order.splice(i+1,0,this.order[i]+1);
+}
+
+var move=function(r,direction) {
+		var i=this.order.indexOf(r);
+		var t=0;
+		if (direction===-1 && i>0) {
+				t=this.order[i-1];
+				this.order[i-1]=this.order[i];
+				this.order[i]=t;
+		} else if (direction===1 && i<this.order.length-1) {
+				t=this.order[i+1];
+				this.order[i+1]=this.order[i];
+				this.order[i]=t;
+		}
+}
+
+var join=function(r){
+		if (r===0)return;
+		var i=this.order.indexOf(r);
+		this.order.splice(i,1);
+
+		this.breakpoints.splice(r-1,1);
+		for (var i=0;i<this.order.length;i+=1) {
+			if (this.order[i]>r) this.order[i]-=1;
+		}
+}
+var setOrder=function(order){
+	this.order=order;
+}
+module.exports={init:init,get:get,setOrder:setOrder,breakup:breakup,move:move,join:join};
+},{}],"C:\\ksana2015\\alignparagraph\\model\\chinese.js":[function(require,module,exports){
+var raw=require('../data/chinese');
+var breaktext=require("./breaktext");
+var data={
+	breakpoints:[],
+	order:[],
+	raw:raw
+}
+breaktext.init.call(data,/[。！？」]+/g);
+
+module.exports={
+	setOrder:breaktext.setOrder.bind(data),
+	get:breaktext.get.bind(data),
+	breakup:breaktext.breakup.bind(data),
+	move:breaktext.move.bind(data),
+	join:breaktext.join.bind(data)
+};
+},{"../data/chinese":"C:\\ksana2015\\alignparagraph\\data\\chinese.js","./breaktext":"C:\\ksana2015\\alignparagraph\\model\\breaktext.js"}],"C:\\ksana2015\\alignparagraph\\model\\tibetan.js":[function(require,module,exports){
+var raw=require('../data/tibetan');
+var breaktext=require("./breaktext");
+
+var data={
+	breakpoints:[],
+	order:[],
+	raw:raw
+}
+
+breaktext.init.call(data,/[ །]+/g);
+
+module.exports={
+	setOrder:breaktext.setOrder.bind(data),
+	get:breaktext.get.bind(data),
+	breakup:breaktext.breakup.bind(data),
+	move:breaktext.move.bind(data),
+	join:breaktext.join.bind(data)
+};
+},{"../data/tibetan":"C:\\ksana2015\\alignparagraph\\data\\tibetan.js","./breaktext":"C:\\ksana2015\\alignparagraph\\model\\breaktext.js"}],"C:\\ksana2015\\alignparagraph\\src\\editor.js":[function(require,module,exports){
 var React=require("react");
 var E=React.createElement;
 
@@ -84,18 +124,34 @@ var SortableListItem=require("./sortableitem");
 
 var Editor=React.createClass({displayName: "Editor",
 	getInitialState:function(){
-		return {data:{items:this.props.data}};
+		return {data:{items:this.props.data.get()}};
 	}
-  ,sort: function(items, dragging) {
-    var data = this.props.data;
-    data.items = items;
-    data.dragging = dragging;
+	,update:function(){
+  	var data=this.state.data;
+  	data.items=this.props.data.get();
     this.setState({data: data});
+  }
+  ,breakup:function(i,at){
+  	this.props.data.breakup(i,at);
+  	this.update();
+  }
+  ,move:function(i,direction) {
+  	this.props.data.move(i,direction);
+  	this.update();
+  }
+  ,join:function(i) {
+  	this.props.data.join(i);
+  	this.update();
   }
 	,render:function(){
 		
 		  return E("div",{},this.state.data.items.map(function(item, i) {
-	      return E(SortableListItem,{ sort:this.sort, data:this.state.data,key:i,"data-id":i,item:item})
+	      return E(SortableListItem,{ 
+	      	breakup:this.breakup,
+	      	move:this.move,
+	      	data:this.state.data,
+	      	join:this.join,
+	      	key:i,"data-id":item[0],item:item})
    		},this));
 	}
 });
@@ -121,10 +177,11 @@ var React=require("react");
 var E=React.createElement;
 var Editors=require("./editors");
 
+var helpmsg="Click to select a box, Enter to break at caret, Backspace to join with previous box, move Up/Down with Arrow Key";
 var maincomponent = React.createClass({displayName: "maincomponent",
   render: function() {
     return E("div",{style:{display:"flex",flexDirection:"column"}},
-    			E("div",{style:{height:"120px",backgroundColor:"#202020"}},"toolbar"),
+    			E("div",{style:{height:"120px"}},helpmsg),
     			E(Editors) 
       )
   }
@@ -133,19 +190,80 @@ module.exports=maincomponent;
 },{"./editors":"C:\\ksana2015\\alignparagraph\\src\\editors.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\sortableitem.js":[function(require,module,exports){
 var React=require("react");
 var E=React.createElement;
-var Sortable=require("react-sortable");
+
+var allowKeys={ArrowRight:true,ArrowLeft:true};
 var SortableListItem = React.createClass({displayName: "SortableListItem",
-  mixins: [Sortable],
-  render: function() {
-  	var props=Object.assign({},this.props,{className:this.isDragging() ? "dragging" : ""
-  	,"data-id":this.props["data-id"],draggable:true,
+  getInitialState:function(){
+  	return {editable:false};
+  }
+  ,toggleEditable:function(){
+  	this.setState({editable:!this.state.editable})
+  }
+  ,onKeyUp:function(evt){
+  	
+  }
+  ,getSelStart:function(){
+  		var sel=window.getSelection();
+  		var range = sel.getRangeAt(0);
+  		return range.startOffset;
+
+  }
+  ,onKeyDown:function(evt){
+  	var row=parseInt(this.props["data-id"]);
+
+  	if (!allowKeys[evt.key]) evt.preventDefault();
+  	if (evt.key==="Escape") this.onBlur();
+  	if (evt.key==="Backspace") this.props.join(row);
+  	if (evt.key==="ArrowUp") this.props.move(row,-1);
+		if (evt.key==="ArrowDown") this.props.move(row,1);
+  	if (evt.key==="Enter") {
+  			var sel=this.getSelStart();
+				this.props.breakup(row,sel);
+  	}
+  }
+  ,componentWillReceiveProps:function(){
+  	this.setState({editable:false});
+  }
+  ,onKeyPress:function(evt){
+
+  }
+  ,onBlur:function(){
+  	this.setState({editable:false});
+  }
+  ,selectRow:function(){
+		var self=this.refs.self;
+		var range = document.createRange();
+ 		range.setStart(self, 0);
+ 		range.setEnd(self, 0);
+
+		self.focus();
+		var sel=window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange(range);
+  }
+  ,componentDidUpdate:function(){
+  	this.refs.self.contentEditable=JSON.stringify(this.state.editable);
+  	if (this.state.editable) this.selectRow();
+  }
+  ,defaultProps:function(){
+  	return {onKeyDown:this.onKeyDown,onKeyUp:this.onKeyUp,
+  		onKeyPress:this.onKeyPress,ref:"self",onBlur:this.onBlur};
+  }
+  ,render: function() {
+  	var props=Object.assign(this.defaultProps(),this.props,
+  	{"data-id":this.props["data-id"],draggable:true,
   	onDragEnd:this.sortEnd,onDragOver:this.dragOver,onDragStart:this.sortStart});
-  	return  E("div", props,this.props.item[0],this.props.item[1]);
+  	if (!this.state.editable) props.onClick=this.toggleEditable;
+
+  	return  E("div", null,
+  		E("span",{},1+this.props.item[0]),
+
+  		E("span",props,this.props.item[1]));
   }
 });
 
 module.exports=SortableListItem;
-},{"react":"react","react-sortable":"C:\\ksana2015\\alignparagraph\\node_modules\\react-sortable\\src\\Sortable.js"}],"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\downloader.js":[function(require,module,exports){
+},{"react":"react"}],"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\downloader.js":[function(require,module,exports){
 
 var userCancel=false;
 var files=[];

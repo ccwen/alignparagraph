@@ -1,8 +1,16 @@
 var raw=require('../data/chinese');
-var items=raw.replace(/[。！？」]+/g,function(m){
-	return m+"\n";
-}).split("\n");
+var breaktext=require("./breaktext");
+var data={
+	breakpoints:[],
+	order:[],
+	raw:raw
+}
+breaktext.init.call(data,/[。！？」]+/g);
 
-module.exports=items.map(function(m,idx){
-	return [idx+1,m];
-})
+module.exports={
+	setOrder:breaktext.setOrder.bind(data),
+	get:breaktext.get.bind(data),
+	breakup:breaktext.breakup.bind(data),
+	move:breaktext.move.bind(data),
+	join:breaktext.join.bind(data)
+};
