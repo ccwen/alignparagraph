@@ -124,12 +124,18 @@ var SortableListItem=require("./sortableitem");
 
 var Editor=React.createClass({displayName: "Editor",
 	getInitialState:function(){
-		return {data:{items:this.props.data.get()}};
+		return {data:{items:this.props.data.get()},heights:this.props.heights};
+	}
+	,componentWillReceiveProps:function(nextProps){
+			this.setState({heights:nextProps.heights});
 	}
 	,update:function(){
   	var data=this.state.data;
   	data.items=this.props.data.get();
-    this.setState({data: data});
+
+    this.setState({data: data,heights:[]},function(){
+		    this.props.onUpdate(this.props.side);
+    }.bind(this));
   }
   ,breakup:function(i,at){
   	this.props.data.breakup(i,at);
@@ -143,15 +149,25 @@ var Editor=React.createClass({displayName: "Editor",
   	this.props.data.join(i);
   	this.update();
   }
+  ,getChildren:function(){
+  	var nodes=this.refs.self.childNodes;
+  	return [].map.call(nodes,function(node){
+  			return node;
+  	});
+  }
 	,render:function(){
-		
-		  return E("div",{},this.state.data.items.map(function(item, i) {
-	      return E(SortableListItem,{ 
+		  return E("div",{ref:"self"},this.state.data.items.map(function(item, i) {
+		  	var opts={
 	      	breakup:this.breakup,
 	      	move:this.move,
 	      	data:this.state.data,
 	      	join:this.join,
-	      	key:i,"data-id":item[0],item:item})
+	      	key:i,"data-id":item[0],item:item
+		  	};
+
+		  	if (this.state.heights[i]) opts.height=this.state.heights[i];
+
+	      return E(SortableListItem,opts)
    		},this));
 	}
 });
@@ -164,10 +180,50 @@ var Editor=require("./editor");
 var chinese=require("../model/chinese");
 var tibetan=require("../model/tibetan");
 var Editors = React.createClass({displayName: "Editors",
-  render: function() {
+	getInitialState:function(){
+		return {leftheights:[],rightheights:[]};
+	}
+	,setSameHeight:function(side){
+			var right=this.refs.right.getChildren();
+			var left=this.refs.left.getChildren();
+			var rightheights=[],leftheights=[],repaint=false;
+
+			if (side==="left") {
+				for (var i=0;i<right.length;i+=1) {
+					if (left[i] && right[i].clientHeight < left[i].clientHeight){
+						rightheights[i]=left[i].clientHeight;
+						repaint=true;
+					}				
+				}
+			}
+
+
+			if (side==="right") {
+				for (var i=0;i<left.length;i+=1) {
+					if (right[i] && left[i].clientHeight < right[i].clientHeight){
+						leftheights[i]=right[i].clientHeight;
+						repaint=true;
+					}
+				}
+			}
+
+			if (repaint) this.setState({rightheights:rightheights,leftheights:leftheights});
+	}
+	,onUpdate:function(side){
+		this.setSameHeight(side);
+	}
+	,componentDidMount:function(){
+		this.setSameHeight("right");
+		this.setSameHeight("left");
+	}	
+  ,render: function() {
     return E("div",{style:{display:"flex",flexDirection:"row"}},
-          E("span",{style:{flex:1}}, E(Editor,{data:chinese,toolbarHeight:240})),
-          E("span",{style:{flex:1}}, E(Editor,{data:tibetan,toolbarHeight:240}))
+          E("span",{style:{flex:1}}, 
+          			E(Editor,{ref:"right",data:chinese,toolbarHeight:240,side:"right",
+          				heights:this.state.rightheights,onUpdate:this.onUpdate})),
+          E("span",{style:{flex:1}}, 
+          	E(Editor,{ref:"left",data:tibetan,toolbarHeight:240,side:"left",
+          		heights:this.state.leftheights,onUpdate:this.onUpdate}))
       )
   }
 });
@@ -179,7 +235,7 @@ var Editors=require("./editors");
 
 var helpmsg="Click to select a box, Enter to break at caret, Backspace to join with previous box, move Up/Down with Arrow Key";
 var maincomponent = React.createClass({displayName: "maincomponent",
-  render: function() {
+		render: function() {
     return E("div",{style:{display:"flex",flexDirection:"column"}},
     			E("div",{style:{height:"120px"}},helpmsg),
     			E(Editors) 
@@ -241,6 +297,7 @@ var SortableListItem = React.createClass({displayName: "SortableListItem",
 		sel.removeAllRanges();
 		sel.addRange(range);
   }
+
   ,componentDidUpdate:function(){
   	this.refs.self.contentEditable=JSON.stringify(this.state.editable);
   	if (this.state.editable) this.selectRow();
@@ -249,14 +306,18 @@ var SortableListItem = React.createClass({displayName: "SortableListItem",
   	return {onKeyDown:this.onKeyDown,onKeyUp:this.onKeyUp,
   		onKeyPress:this.onKeyPress,ref:"self",onBlur:this.onBlur};
   }
+  ,getHeight:function(){ 
+  		return 1;
+  }
   ,render: function() {
   	var props=Object.assign(this.defaultProps(),this.props,
   	{"data-id":this.props["data-id"],draggable:true,
   	onDragEnd:this.sortEnd,onDragOver:this.dragOver,onDragStart:this.sortStart});
   	if (!this.state.editable) props.onClick=this.toggleEditable;
-
-  	return  E("div", null,
-  		E("span",{},1+this.props.item[0]),
+  	var style={};
+  	if (this.props.height) style.height=this.props.height;
+  	return  E("div", {style:style},
+  		E("span",{style:{background:"lightyellow"}},1+this.props.item[0]),
 
   		E("span",props,this.props.item[1]));
   }

@@ -51,6 +51,7 @@ var SortableListItem = React.createClass({
 		sel.removeAllRanges();
 		sel.addRange(range);
   }
+
   ,componentDidUpdate:function(){
   	this.refs.self.contentEditable=JSON.stringify(this.state.editable);
   	if (this.state.editable) this.selectRow();
@@ -59,14 +60,18 @@ var SortableListItem = React.createClass({
   	return {onKeyDown:this.onKeyDown,onKeyUp:this.onKeyUp,
   		onKeyPress:this.onKeyPress,ref:"self",onBlur:this.onBlur};
   }
+  ,getHeight:function(){ 
+  		return 1;
+  }
   ,render: function() {
   	var props=Object.assign(this.defaultProps(),this.props,
   	{"data-id":this.props["data-id"],draggable:true,
   	onDragEnd:this.sortEnd,onDragOver:this.dragOver,onDragStart:this.sortStart});
   	if (!this.state.editable) props.onClick=this.toggleEditable;
-
-  	return  E("div", null,
-  		E("span",{},1+this.props.item[0]),
+  	var style={};
+  	if (this.props.height) style.height=this.props.height;
+  	return  E("div", {style:style},
+  		E("span",{style:{background:"lightyellow"}},1+this.props.item[0]),
 
   		E("span",props,this.props.item[1]));
   }

@@ -6,12 +6,18 @@ var SortableListItem=require("./sortableitem");
 
 var Editor=React.createClass({
 	getInitialState:function(){
-		return {data:{items:this.props.data.get()}};
+		return {data:{items:this.props.data.get()},heights:this.props.heights};
+	}
+	,componentWillReceiveProps:function(nextProps){
+			this.setState({heights:nextProps.heights});
 	}
 	,update:function(){
   	var data=this.state.data;
   	data.items=this.props.data.get();
-    this.setState({data: data});
+
+    this.setState({data: data,heights:[]},function(){
+		    this.props.onUpdate(this.props.side);
+    }.bind(this));
   }
   ,breakup:function(i,at){
   	this.props.data.breakup(i,at);
@@ -25,15 +31,25 @@ var Editor=React.createClass({
   	this.props.data.join(i);
   	this.update();
   }
+  ,getChildren:function(){
+  	var nodes=this.refs.self.childNodes;
+  	return [].map.call(nodes,function(node){
+  			return node;
+  	});
+  }
 	,render:function(){
-		
-		  return E("div",{},this.state.data.items.map(function(item, i) {
-	      return E(SortableListItem,{ 
+		  return E("div",{ref:"self"},this.state.data.items.map(function(item, i) {
+		  	var opts={
 	      	breakup:this.breakup,
 	      	move:this.move,
 	      	data:this.state.data,
 	      	join:this.join,
-	      	key:i,"data-id":item[0],item:item})
+	      	key:i,"data-id":item[0],item:item
+		  	};
+
+		  	if (this.state.heights[i]) opts.height=this.state.heights[i];
+
+	      return E(SortableListItem,opts)
    		},this));
 	}
 });
