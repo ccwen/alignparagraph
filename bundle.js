@@ -1,4 +1,8 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"C:\\ksana2015\\alignparagraph\\index.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"C:\\ksana2015\\alignparagraph\\data\\chinese.js":[function(require,module,exports){
+module.exports="《雜阿含經》卷22第583經：「如是我聞：一時，佛住舍衛國祇樹給孤獨園。爾時，羅睺羅阿修羅王障月天子。時，諸月天子悉皆恐怖，來詣佛所，稽首佛足，退住一面。說偈歎佛：「今禮最勝覺，能脫一切障，我今遭苦惱，是故來歸依。我等月天子，歸依於善逝，佛哀愍世間，願解阿修羅。」爾時，世尊說偈答言：「破壞諸闇冥，光明照虛空，今毘盧遮那，清淨光明顯。羅睺避虛空，速放飛兔像，羅睺阿修羅，即捨月而還。舉體悉流污，戰怖不自安，神昬志迷亂，猶如重病人。」時，有阿修羅名曰婆稚，見羅睺羅阿修羅疾捨月還，便說偈言：「羅睺阿修羅，捨月一何速，神體悉流污，猶如重病人。」羅睺阿修羅說偈答言：「瞿曇說呪偈，不速捨月者，或頭破七分，受諸隣死苦。」婆稚阿修羅復說偈言：「佛興未曾有，安隱於世間，說呪偈能令，羅睺羅捨月。」佛說此經已，時月天子聞佛所說，歡喜隨喜，作禮而去。」";
+},{}],"C:\\ksana2015\\alignparagraph\\data\\tibetan.js":[function(require,module,exports){
+module.exports="༄༅༅། །རྒྱ་གར་སྐད་དུ། ཙན་དྲ་སཱུ་ཏྲ། བོད་སྐད་དུ། ཟླ་བའི་མདོ། འཕགས་པ་དཀོན་མཆོག་གསུམ་ལ་གུས་པས་ཕྱག་འཚལ་ལོ། །འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་མཉན་ཡོད་རྒྱལ་བྱེད་ཚལ་མགོན་མེད་ཟས་སྦྱིན་གྱི་ཀུན་དགའ་ར་བ་ན་བཞུགས་སོ། །དེ་ནས་དེའི་ཚེ་ལྷའི་བུ་ ཟླ་བ་ཚེ། ལྷ་མ་ཡིན་གྱི་དབང་པོ་སྒྲ་གཅན་འཛིན་གྱིས་བཟུང་ནས། དེ་ནས་ལྷའི་བུ་ཟླ་བས་བཅོམ་ལྡན་འདས་རྗེས་སུ་དྲན་པ་ཡིད་ལ་བྱས་ཏེ། དེའི་དུས་སུ་ ཚིགས་སུ་བཅད་པ་འདི་གསོལ་ཏོ། །སངས་རྒྱས་དཔའ་བོ་དེ་ལ་འདུད། ། ཐམས་ཅད་མྱུར་དུ་གྲོལ་བར་གྱིས། །བདག་འདིའི་ཁ་རུ་ བཅུག་པས་ན། ། བདག་ནི་ཁྱེད་ལ་སྐྱབས་སུ་འགྲོ། །དེ་ནས་བཅོམ་ལྡན་འདས་ཀྱིས་ལྷའི་བུ་ཟླ་བའི་ཆེད་དུ་ལྷ་མ་ཡིན་གྱི་དབང་པོ་སྒྲ་གཅན་འཛིན་ལ་ཚིགས་སུ་བཅད་པ་བཀའ་སྩལ་པ། སངས་རྒྱས་འཇིག་རྟེན་ལ་བརྩེ་བས། །དགྲ་བཅོམ་དེ་བཞིན་གཤེགས་པ་ལ། །ཟླ་བ་སྐྱབས་སུ་སོང་བས་ན། །སྒྲ་གཅན་འཛིན་གྱིས་ཟླ་བ་ཐོང་། །དེ་ནས་ལྷ་མ་ཡིན་གྱི་དབང་པོ་སྒྲ་གཅན་འཛིན་གྱིས། ལྷའི་བུ་ཟླ་བ་གྲོལ་བར་བྱས་ནས། སྔར་གྱི་གཟུགས་བཞིན་དུ་གང་སུ་ཞིག་གིས་ལྷ་མ་ཡིན་གྱི་དབང་པོ་ཐགས་བཟངས་རིས་ཀྱི་དྲུང་དུ་སོང་ཞིང་སོང་ནས། སེམས་མི་དགའ་ཞིང་ཡི་མུག་པས་བ་སྤུ་ལངས་པར་གྱུར་པས་ཕྱོགས་གཅིག་ཏུ་འདུག་གོ། །ཕྱོགས་གཅིག་ཏུ་འདུག་ནས་ཡང་ལྷ་མ་ཡིན་གྱི་དབང་པོ་སྒྲ་གཅན་འཛིན་ལ། ལྷ་མ་ཡིན་གྱི་དབང་པོ་ཐགས་བཟངས་རིས་ཀྱིས་ཚིགས་སུ་བཅད་པ་སྨྲས་པ། ཅི་ཕྱིར་ཡིད་ནི་སྐྲག་པར་གྱུར། །སྒྲ་གཅན་འཛིན་གྱིས་ཟླ་བ་ཐོང་། །གཟུགས་ཀྱི་རྣམ་འགྱུར་ཀུན་དུ་ངན། །ཅི་ཕྱིར་འཇིགས་པས་འདི་རུ་ལྷགས། །སྒྲ་གཅན་འཛིན་གྱིས་སྨྲས་པ། སངས་རྒྱས་ཚིགས་བཅད་ཐོས་ནས་ནི། །ཟླ་བ་བདག་གིས་མ་བཏང་ན། །མགོ་བོ་ཚལ་པ་བདུན་འགས་ཤིང་། །འཚོ་བ་ལ་ནི་བདེ་བ་མེད། །ཟླ་བའི་མདོ་རྫོགས་སྟོ།།";
+},{}],"C:\\ksana2015\\alignparagraph\\index.js":[function(require,module,exports){
 var React=require("react");
 var ReactDOM=require("react-dom");
 require("ksana2015-webruntime/livereload")(); 
@@ -7,38 +11,112 @@ ksanagap.boot("alignparagraph",function(){
 	var Main=React.createElement(require("./src/main.jsx"));
 	ksana.mainComponent=ReactDOM.render(Main,document.getElementById("main"));
 });
-},{"./src/main.jsx":"C:\\ksana2015\\alignparagraph\\src\\main.jsx","ksana2015-webruntime/ksanagap":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\ksanagap.js","ksana2015-webruntime/livereload":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\livereload.js","react":"react","react-dom":"react-dom"}],"C:\\ksana2015\\alignparagraph\\src\\editor.js":[function(require,module,exports){
+},{"./src/main.jsx":"C:\\ksana2015\\alignparagraph\\src\\main.jsx","ksana2015-webruntime/ksanagap":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\ksanagap.js","ksana2015-webruntime/livereload":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\livereload.js","react":"react","react-dom":"react-dom"}],"C:\\ksana2015\\alignparagraph\\model\\chinese.js":[function(require,module,exports){
+var raw=require('../data/chinese');
+var items=raw.replace(/[。！？」]+/g,function(m){
+	return m+"\n";
+}).split("\n");
+
+module.exports=items.map(function(m,idx){
+	return [idx+1,m];
+})
+
+},{"../data/chinese":"C:\\ksana2015\\alignparagraph\\data\\chinese.js"}],"C:\\ksana2015\\alignparagraph\\model\\tibetan.js":[function(require,module,exports){
+var raw=require('../data/tibetan');
+var items=raw.replace(/[ །]+/g,function(m){
+	return m+"\n";
+}).split("\n");
+
+module.exports=items.map(function(m,idx){
+	return [idx+1,m];
+})
+
+},{"../data/tibetan":"C:\\ksana2015\\alignparagraph\\data\\tibetan.js"}],"C:\\ksana2015\\alignparagraph\\node_modules\\react-sortable\\src\\Sortable.js":[function(require,module,exports){
+var Sortable = {
+
+  update: function(to, from) {
+    var data = this.props.data.items;
+    data.splice(to, 0, data.splice(from,1)[0]);
+    this.props.sort(data, to);
+  },
+  sortEnd: function() {
+    this.props.sort(this.props.data.items, undefined);
+  },
+  sortStart: function(e) {
+    this.dragged = e.currentTarget.dataset ?
+      e.currentTarget.dataset.id :
+      e.currentTarget.getAttribute('data-id');
+    e.dataTransfer.effectAllowed = 'move';
+    try {
+      e.dataTransfer.setData('text/html', null);
+    } catch (ex) {
+      e.dataTransfer.setData('text', '');
+    }
+  },
+  move: function(over,append) {
+    var to = Number(over.dataset.id);
+    var from = this.props.data.dragging != undefined ? this.props.data.dragging : Number(this.dragged);
+    if(append) to++;
+    if(from < to) to--;
+    this.update(to,from);
+  },
+  dragOver: function(e) {
+    e.preventDefault();
+    var over = e.currentTarget
+    var relX = e.clientX - over.getBoundingClientRect().left;
+    var relY = e.clientY - over.getBoundingClientRect().top;
+    var height = over.offsetHeight / 2;
+    var placement = this.placement ? this.placement(relX, relY, over) : relY > height
+    this.move(over, placement);
+  },
+  isDragging: function() {
+    return this.props.data.dragging == this.props["data-id"];
+  }
+}
+
+module.exports = Sortable;
+},{}],"C:\\ksana2015\\alignparagraph\\src\\editor.js":[function(require,module,exports){
 var React=require("react");
 var E=React.createElement;
-var KsanaCodeMirror=require("ksana-codemirror").Component;
+
+var SortableListItem=require("./sortableitem");
+
 
 var Editor=React.createClass({displayName: "Editor",
-	componentDidMount:function(){
-		this.refs.editor.getCodeMirror().setOption("theme", "ambiance");
-		var body = document.body;
-		console.log(body.scrollHeight)
-		this.refs.editor.getCodeMirror().setSize(null,body.scrollHeight-(this.props.toolbarHeight||0))
+	getInitialState:function(){
+		return {data:{items:this.props.data}};
 	}
+  ,sort: function(items, dragging) {
+    var data = this.props.data;
+    data.items = items;
+    data.dragging = dragging;
+    this.setState({data: data});
+  }
 	,render:function(){
-		return E(KsanaCodeMirror,{ref:"editor",value:this.props.text});
+		
+		  return E("div",{},this.state.data.items.map(function(item, i) {
+	      return E(SortableListItem,{ sort:this.sort, data:this.state.data,key:i,"data-id":i,item:item})
+   		},this));
 	}
 });
 module.exports=Editor;
-},{"ksana-codemirror":"ksana-codemirror","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\editors.js":[function(require,module,exports){
+},{"./sortableitem":"C:\\ksana2015\\alignparagraph\\src\\sortableitem.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\editors.js":[function(require,module,exports){
 var React=require("react");
 var E=React.createElement;
 var Editor=require("./editor");
 
+var chinese=require("../model/chinese");
+var tibetan=require("../model/tibetan");
 var Editors = React.createClass({displayName: "Editors",
   render: function() {
     return E("div",{style:{display:"flex",flexDirection:"row"}},
-          E("span",{style:{flex:1}}, E(Editor,{toolbarHeight:240,text:"abc"})),
-          E("span",{style:{flex:1}}, E(Editor,{toolbarHeight:240,text:"xyz"}))
+          E("span",{style:{flex:1}}, E(Editor,{data:chinese,toolbarHeight:240})),
+          E("span",{style:{flex:1}}, E(Editor,{data:tibetan,toolbarHeight:240}))
       )
   }
 });
 module.exports=Editors;
-},{"./editor":"C:\\ksana2015\\alignparagraph\\src\\editor.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\main.jsx":[function(require,module,exports){
+},{"../model/chinese":"C:\\ksana2015\\alignparagraph\\model\\chinese.js","../model/tibetan":"C:\\ksana2015\\alignparagraph\\model\\tibetan.js","./editor":"C:\\ksana2015\\alignparagraph\\src\\editor.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\main.jsx":[function(require,module,exports){
 var React=require("react");
 var E=React.createElement;
 var Editors=require("./editors");
@@ -52,7 +130,22 @@ var maincomponent = React.createClass({displayName: "maincomponent",
   }
 });
 module.exports=maincomponent;
-},{"./editors":"C:\\ksana2015\\alignparagraph\\src\\editors.js","react":"react"}],"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\downloader.js":[function(require,module,exports){
+},{"./editors":"C:\\ksana2015\\alignparagraph\\src\\editors.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\sortableitem.js":[function(require,module,exports){
+var React=require("react");
+var E=React.createElement;
+var Sortable=require("react-sortable");
+var SortableListItem = React.createClass({displayName: "SortableListItem",
+  mixins: [Sortable],
+  render: function() {
+  	var props=Object.assign({},this.props,{className:this.isDragging() ? "dragging" : ""
+  	,"data-id":this.props["data-id"],draggable:true,
+  	onDragEnd:this.sortEnd,onDragOver:this.dragOver,onDragStart:this.sortStart});
+  	return  E("div", props,this.props.item[0],this.props.item[1]);
+  }
+});
+
+module.exports=SortableListItem;
+},{"react":"react","react-sortable":"C:\\ksana2015\\alignparagraph\\node_modules\\react-sortable\\src\\Sortable.js"}],"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\downloader.js":[function(require,module,exports){
 
 var userCancel=false;
 var files=[];

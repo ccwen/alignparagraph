@@ -1,16 +1,24 @@
 var React=require("react");
 var E=React.createElement;
-var KsanaCodeMirror=require("ksana-codemirror").Component;
+
+var SortableListItem=require("./sortableitem");
+
 
 var Editor=React.createClass({
-	componentDidMount:function(){
-		this.refs.editor.getCodeMirror().setOption("theme", "ambiance");
-		var body = document.body;
-		console.log(body.scrollHeight)
-		this.refs.editor.getCodeMirror().setSize(null,body.scrollHeight-(this.props.toolbarHeight||0))
+	getInitialState:function(){
+		return {data:{items:this.props.data}};
 	}
+  ,sort: function(items, dragging) {
+    var data = this.props.data;
+    data.items = items;
+    data.dragging = dragging;
+    this.setState({data: data});
+  }
 	,render:function(){
-		return E(KsanaCodeMirror,{ref:"editor",value:this.props.text});
+		
+		  return E("div",{},this.state.data.items.map(function(item, i) {
+	      return E(SortableListItem,{ sort:this.sort, data:this.state.data,key:i,"data-id":i,item:item})
+   		},this));
 	}
 });
 module.exports=Editor;

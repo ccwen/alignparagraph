@@ -3,6 +3,9 @@ Goal
 input parallel text
 automatic align paragraph
 
+convert from ccc to a editable format
+use DN as example
+
 mark parallel word
 
 load XML
