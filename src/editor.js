@@ -16,7 +16,9 @@ var Editor=React.createClass({
   	data.items=this.props.data.get();
 
     this.setState({data: data,heights:[]},function(){
-		    this.props.onUpdate(this.props.side);
+    	this.props.clearHeight(function(){
+    		this.props.onUpdate();
+    	}.bind(this));
     }.bind(this));
   }
   ,breakup:function(i,at){
@@ -44,6 +46,7 @@ var Editor=React.createClass({
 	      	move:this.move,
 	      	data:this.state.data,
 	      	join:this.join,
+	      	idx:i,
 	      	key:i,"data-id":item[0],item:item
 		  	};
 

@@ -70,9 +70,10 @@ var SortableListItem = React.createClass({
   	if (!this.state.editable) props.onClick=this.toggleEditable;
   	var style={};
   	if (this.props.height) style.height=this.props.height;
-  	return  E("div", {style:style},
-  		E("span",{style:{background:"lightyellow"}},1+this.props.item[0]),
+  	if (this.props.idx%2==0)  style.background="lightyellow";
 
+  	return  E("div", {style:style},
+  		E("span",{style:{background:"silver"}},1+this.props.item[0]),
   		E("span",props,this.props.item[1]));
   }
 });
