@@ -6,9 +6,10 @@ var Toolbar=React.createClass({
 		if (this.props.side!==this.props.master) this.props.lockSide(this.props.side);
 	}
 	,render:function(){
+		var master=this.props.master==this.props.side;
 		return E("span",{},E("label",{},
-			E("input",{checked:this.props.master==this.props.side,onChange:this.onChange,
-				type:"radio",name:"master",value:this.props.side}),"Master"));
+			E("input",{checked:master,onChange:this.onChange,
+				type:"radio",name:"master",value:this.props.side}),master?"Master":"Slave"));
 	}
 })
 

@@ -1,6 +1,6 @@
 jsonp_handler({
  "version": "1",
- "build": 490,
+ "build": 491,
  "title": "alignparagraph",
  "minruntime": 1,
  "baseurl": "http://rawgit.com/ksanaforge/alignparagraph/master/",
@@ -33,7 +33,7 @@ jsonp_handler({
   176,
   1092525,
   164307,
-  35357,
+  35394,
   879
  ],
  "filedates": [
@@ -41,8 +41,8 @@ jsonp_handler({
   "2016-03-27T02:02:09.759Z",
   "2016-03-23T14:08:39.929Z",
   "2016-03-23T13:48:17.875Z",
-  "2016-03-27T07:37:46.019Z",
-  "2016-03-27T07:37:29.756Z"
+  "2016-03-27T07:44:40.730Z",
+  "2016-03-27T07:37:47.006Z"
  ],
- "date": "2016-03-27T07:37:47.001Z"
+ "date": "2016-03-27T07:44:41.707Z"
 })
