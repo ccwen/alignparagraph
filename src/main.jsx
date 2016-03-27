@@ -1,7 +1,7 @@
 var React=require("react");
 var E=React.createElement;
 var Editors=require("./editors");
-var helpmsg="Click to select a box, Enter to break at caret, "
+var helpmsg="Click to toggle select a box, Enter to break at caret, "
 +"Backspace to join with previous box, move Up/Down with Arrow Key for slave column";
 var maincomponent = React.createClass({
 		render: function() {

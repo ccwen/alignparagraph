@@ -292,7 +292,7 @@ module.exports=Editors;
 var React=require("react");
 var E=React.createElement;
 var Editors=require("./editors");
-var helpmsg="Click to select a box, Enter to break at caret, "
+var helpmsg="Click to toggle select a box, Enter to break at caret, "
 +"Backspace to join with previous box, move Up/Down with Arrow Key for slave column";
 var maincomponent = React.createClass({displayName: "maincomponent",
 		render: function() {
@@ -373,14 +373,13 @@ var SortableListItem = React.createClass({displayName: "SortableListItem",
   }
   ,render: function() {
   	var props=Object.assign(this.defaultProps(),this.props,
-  	{"data-id":this.props["data-id"],draggable:true,
-  	onDragEnd:this.sortEnd,onDragOver:this.dragOver,onDragStart:this.sortStart});
-  	if (!this.state.editable) props.onClick=this.toggleEditable;
+  	{"data-id":this.props["data-id"]});
+  	//if (!this.state.editable) props.onClick=this.toggleEditable;
   	var style={};
   	if (this.props.height) style.height=this.props.height;
   	if (this.props.idx%2==0)  style.background="lightyellow";
 
-  	return  E("div", {style:style},
+  	return  E("div", {style:style,onClick:this.toggleEditable},
   		E("span",{style:{borderRadius:"50%",background:"silver"}},1+this.props.item[0]),
   		E("span",props,this.props.item[1]));
   }
