@@ -71,7 +71,7 @@ var SortableListItem = React.createClass({
   	if (this.props.height) style.height=this.props.height;
   	if (this.props.idx%2==0)  style.background="lightyellow";
 
-  	return  E("div", {style:style,onClick:this.toggleEditable},
+  	return  E("div", {style:style,onClick:this.state.editable?null:this.toggleEditable},
   		E("span",{style:{borderRadius:"50%",background:"silver"}},1+this.props.item[0]),
   		E("span",props,this.props.item[1]));
   }
