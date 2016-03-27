@@ -8,6 +8,8 @@ var data={
 breaktext.init.call(data,/[。！？」]+/g);
 
 module.exports={
+	name:"chinese",
+	__data:data,
 	setOrder:breaktext.setOrder.bind(data),
 	get:breaktext.get.bind(data),
 	breakup:breaktext.breakup.bind(data),

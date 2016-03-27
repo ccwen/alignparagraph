@@ -11,7 +11,41 @@ ksanagap.boot("alignparagraph",function(){
 	var Main=React.createElement(require("./src/main.jsx"));
 	ksana.mainComponent=ReactDOM.render(Main,document.getElementById("main"));
 });
-},{"./src/main.jsx":"C:\\ksana2015\\alignparagraph\\src\\main.jsx","ksana2015-webruntime/ksanagap":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\ksanagap.js","ksana2015-webruntime/livereload":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\livereload.js","react":"react","react-dom":"react-dom"}],"C:\\ksana2015\\alignparagraph\\model\\breaktext.js":[function(require,module,exports){
+},{"./src/main.jsx":"C:\\ksana2015\\alignparagraph\\src\\main.jsx","ksana2015-webruntime/ksanagap":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\ksanagap.js","ksana2015-webruntime/livereload":"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\livereload.js","react":"react","react-dom":"react-dom"}],"C:\\ksana2015\\alignparagraph\\model\\aligntext.js":[function(require,module,exports){
+var aligntext=function(t1,t2){
+	var data1=t1.__data;
+	var data2=t2.__data;
+
+	//console.log(t1.__data.order,t2.__data.order)
+	
+	if (data2.order.length>data1.order.length) {
+		var add=data2.order.length-data1.order.length;
+		for (var i=0;i<add;i++) {
+			data1.order.push(data1.order.length);
+			data1.breakpoints.push(data1.raw.length);
+		}
+	} else if (data2.order.length<data1.order.length) {
+		var add=data1.order.length-data2.order.length;
+		for (var i=0;i<add;i++) {
+			data2.order.push(data2.order.length);
+			data2.breakpoints.push(data2.raw.length);
+		}		
+	}
+
+
+
+	var arr=[];
+	for (var i=0;i<data1.order.length;i++) {
+		arr.push([data1.order[i],data2.order[i]]);
+	}
+	arr=arr.sort(function(d1,d2){ return d1[0]-d2[0] });
+
+	data1.order=arr.map(function(a){return a[0]});
+	data2.order=arr.map(function(a){return a[1]});
+
+}
+module.exports=aligntext;
+},{}],"C:\\ksana2015\\alignparagraph\\model\\breaktext.js":[function(require,module,exports){
 var reorder=function(items,order) {
 	return items.map(function(item,idx){
 			return items[order[idx]]
@@ -90,6 +124,8 @@ var data={
 breaktext.init.call(data,/[。！？」]+/g);
 
 module.exports={
+	name:"chinese",
+	__data:data,
 	setOrder:breaktext.setOrder.bind(data),
 	get:breaktext.get.bind(data),
 	breakup:breaktext.breakup.bind(data),
@@ -109,6 +145,8 @@ var data={
 breaktext.init.call(data,/[ །]+/g);
 
 module.exports={
+	name:"tibetan",
+	__data:data,
 	setOrder:breaktext.setOrder.bind(data),
 	get:breaktext.get.bind(data),
 	breakup:breaktext.breakup.bind(data),
@@ -120,14 +158,14 @@ var React=require("react");
 var E=React.createElement;
 
 var SortableListItem=require("./sortableitem");
-
+var Toolbar=require("./toolbar");
 
 var Editor=React.createClass({displayName: "Editor",
 	getInitialState:function(){
 		return {data:{items:this.props.data.get()},heights:this.props.heights};
 	}
 	,componentWillReceiveProps:function(nextProps){
-			this.setState({heights:nextProps.heights});
+			this.setState({heights:nextProps.heights, data:{items:this.props.data.get()}});
 	}
 	,update:function(){
   	var data=this.state.data;
@@ -151,6 +189,9 @@ var Editor=React.createClass({displayName: "Editor",
   	this.props.data.join(i);
   	this.update();
   }
+  ,lockSide:function(side){  	
+  	this.props.setOrder(side);
+  }
   ,getChildren:function(){
   	var nodes=this.refs.self.childNodes;
   	return [].map.call(nodes,function(node){
@@ -158,33 +199,37 @@ var Editor=React.createClass({displayName: "Editor",
   	});
   }
 	,render:function(){
-		  return E("div",{ref:"self"},this.state.data.items.map(function(item, i) {
-		  	var opts={
-	      	breakup:this.breakup,
-	      	move:this.move,
-	      	data:this.state.data,
-	      	join:this.join,
-	      	idx:i,
-	      	key:i,"data-id":item[0],item:item
-		  	};
+		  return E("div",{},
+		  	E(Toolbar,{side:this.props.side,master:this.props.master,lockSide:this.lockSide}),
+		  	E("span",{ref:"self"},
 
-		  	if (this.state.heights[i]) opts.height=this.state.heights[i];
+		  	this.state.data.items.map(function(item, i) {
+			  	var opts={
+		      	data:this.state.data,
+		      	breakup:this.breakup,	move:this.move,join:this.join,
+		      	locked:this.props.master===this.props.side,
+		      	idx:i, 	key:i,"data-id":item[0],item:item
+			  	};
 
-	      return E(SortableListItem,opts)
-   		},this));
+	 				if (this.state.heights[i]) opts.height=this.state.heights[i];
+
+	      	return E(SortableListItem,opts);
+   			},this))
+		  );
 	}
 });
 module.exports=Editor;
-},{"./sortableitem":"C:\\ksana2015\\alignparagraph\\src\\sortableitem.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\editors.js":[function(require,module,exports){
+},{"./sortableitem":"C:\\ksana2015\\alignparagraph\\src\\sortableitem.js","./toolbar":"C:\\ksana2015\\alignparagraph\\src\\toolbar.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\editors.js":[function(require,module,exports){
 var React=require("react");
 var E=React.createElement;
 var Editor=require("./editor");
 
 var chinese=require("../model/chinese");
 var tibetan=require("../model/tibetan");
+var aligntext=require("../model/aligntext");
 var Editors = React.createClass({displayName: "Editors",
 	getInitialState:function(){
-		return {leftheights:[],rightheights:[]};
+		return {leftheights:[],rightheights:[],master:"left"};
 	}
 	,setSameHeight:function(){
 			var right=this.refs.right.getChildren();
@@ -216,33 +261,45 @@ var Editors = React.createClass({displayName: "Editors",
 	,onUpdate:function(){
 		this.setSameHeight();
 	}
+	,setOrder:function(side) {
+		if (side==="left") {
+			aligntext(chinese,tibetan);
+		} else if (side==="right"){
+			aligntext(tibetan,chinese);	
+		}
+		this.setState({rightheights:[],leftheights:[],master:side},function(){
+			this.setSameHeight();
+		}.bind(this));
+	}
 	,componentDidMount:function(){
 		this.setSameHeight();
-	}	
+	}
   ,render: function() {
     return E("div",{style:{display:"flex",flexDirection:"row"}},
           E("span",{style:{flex:1}}, 
-          			E(Editor,{ref:"left",data:chinese,toolbarHeight:240,
-          				clearHeight:this.clearHeight,
+          			E(Editor,{ref:"left",data:chinese,toolbarHeight:240,setOrder:this.setOrder,
+          				clearHeight:this.clearHeight,side:"left",master:this.state.master,
           				heights:this.state.leftheights,onUpdate:this.onUpdate})),
           E("span",{style:{flex:1}}, 
-          	E(Editor,{ref:"right",data:tibetan,toolbarHeight:240,
-          		clearHeight:this.clearHeight,
+          	E(Editor,{ref:"right",data:tibetan,toolbarHeight:240,setOrder:this.setOrder,
+          		clearHeight:this.clearHeight,side:"right",master:this.state.master,
           		heights:this.state.rightheights,onUpdate:this.onUpdate}))
       )
   }
 });
 module.exports=Editors;
-},{"../model/chinese":"C:\\ksana2015\\alignparagraph\\model\\chinese.js","../model/tibetan":"C:\\ksana2015\\alignparagraph\\model\\tibetan.js","./editor":"C:\\ksana2015\\alignparagraph\\src\\editor.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\main.jsx":[function(require,module,exports){
+},{"../model/aligntext":"C:\\ksana2015\\alignparagraph\\model\\aligntext.js","../model/chinese":"C:\\ksana2015\\alignparagraph\\model\\chinese.js","../model/tibetan":"C:\\ksana2015\\alignparagraph\\model\\tibetan.js","./editor":"C:\\ksana2015\\alignparagraph\\src\\editor.js","react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\main.jsx":[function(require,module,exports){
 var React=require("react");
 var E=React.createElement;
 var Editors=require("./editors");
-
-var helpmsg="Click to select a box, Enter to break at caret, Backspace to join with previous box, move Up/Down with Arrow Key";
+var helpmsg="Click to select a box, Enter to break at caret, "
++"Backspace to join with previous box, move Up/Down with Arrow Key for slave column";
 var maincomponent = React.createClass({displayName: "maincomponent",
 		render: function() {
     return E("div",{style:{display:"flex",flexDirection:"column"}},
-    			E("div",{style:{height:"120px"}},helpmsg),
+
+    			E("div",{style:{height:"120px"}},
+    				helpmsg),
     			E(Editors) 
       )
   }
@@ -275,8 +332,8 @@ var SortableListItem = React.createClass({displayName: "SortableListItem",
   	if (!allowKeys[evt.key]) evt.preventDefault();
   	if (evt.key==="Escape") this.onBlur();
   	if (evt.key==="Backspace") this.props.join(row);
-  	if (evt.key==="ArrowUp") this.props.move(row,-1);
-		if (evt.key==="ArrowDown") this.props.move(row,1);
+  	if (evt.key==="ArrowUp" && !this.props.locked) this.props.move(row,-1);
+		if (evt.key==="ArrowDown"&& !this.props.locked) this.props.move(row,1);
   	if (evt.key==="Enter") {
   			var sel=this.getSelStart();
 				this.props.breakup(row,sel);
@@ -324,12 +381,28 @@ var SortableListItem = React.createClass({displayName: "SortableListItem",
   	if (this.props.idx%2==0)  style.background="lightyellow";
 
   	return  E("div", {style:style},
-  		E("span",{style:{background:"silver"}},1+this.props.item[0]),
+  		E("span",{style:{borderRadius:"50%",background:"silver"}},1+this.props.item[0]),
   		E("span",props,this.props.item[1]));
   }
 });
 
 module.exports=SortableListItem;
+},{"react":"react"}],"C:\\ksana2015\\alignparagraph\\src\\toolbar.js":[function(require,module,exports){
+var React=require("react");
+var E=React.createElement;
+
+var Toolbar=React.createClass({displayName: "Toolbar",
+	onChange:function(){
+		if (this.props.side!==this.props.master) this.props.lockSide(this.props.side);
+	}
+	,render:function(){
+		return E("span",{},E("label",{},
+			E("input",{checked:this.props.master==this.props.side,onChange:this.onChange,
+				type:"radio",name:"master",value:this.props.side}),"Master"));
+	}
+})
+
+module.exports=Toolbar;
 },{"react":"react"}],"C:\\ksana2015\\node_modules\\ksana2015-webruntime\\downloader.js":[function(require,module,exports){
 
 var userCancel=false;

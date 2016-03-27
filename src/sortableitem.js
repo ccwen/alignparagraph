@@ -24,8 +24,8 @@ var SortableListItem = React.createClass({
   	if (!allowKeys[evt.key]) evt.preventDefault();
   	if (evt.key==="Escape") this.onBlur();
   	if (evt.key==="Backspace") this.props.join(row);
-  	if (evt.key==="ArrowUp") this.props.move(row,-1);
-		if (evt.key==="ArrowDown") this.props.move(row,1);
+  	if (evt.key==="ArrowUp" && !this.props.locked) this.props.move(row,-1);
+		if (evt.key==="ArrowDown"&& !this.props.locked) this.props.move(row,1);
   	if (evt.key==="Enter") {
   			var sel=this.getSelStart();
 				this.props.breakup(row,sel);
@@ -73,7 +73,7 @@ var SortableListItem = React.createClass({
   	if (this.props.idx%2==0)  style.background="lightyellow";
 
   	return  E("div", {style:style},
-  		E("span",{style:{background:"silver"}},1+this.props.item[0]),
+  		E("span",{style:{borderRadius:"50%",background:"silver"}},1+this.props.item[0]),
   		E("span",props,this.props.item[1]));
   }
 });

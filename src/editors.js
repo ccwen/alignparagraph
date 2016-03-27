@@ -4,9 +4,10 @@ var Editor=require("./editor");
 
 var chinese=require("../model/chinese");
 var tibetan=require("../model/tibetan");
+var aligntext=require("../model/aligntext");
 var Editors = React.createClass({
 	getInitialState:function(){
-		return {leftheights:[],rightheights:[]};
+		return {leftheights:[],rightheights:[],master:"left"};
 	}
 	,setSameHeight:function(){
 			var right=this.refs.right.getChildren();
@@ -38,18 +39,28 @@ var Editors = React.createClass({
 	,onUpdate:function(){
 		this.setSameHeight();
 	}
+	,setOrder:function(side) {
+		if (side==="left") {
+			aligntext(chinese,tibetan);
+		} else if (side==="right"){
+			aligntext(tibetan,chinese);	
+		}
+		this.setState({rightheights:[],leftheights:[],master:side},function(){
+			this.setSameHeight();
+		}.bind(this));
+	}
 	,componentDidMount:function(){
 		this.setSameHeight();
-	}	
+	}
   ,render: function() {
     return E("div",{style:{display:"flex",flexDirection:"row"}},
           E("span",{style:{flex:1}}, 
-          			E(Editor,{ref:"left",data:chinese,toolbarHeight:240,
-          				clearHeight:this.clearHeight,
+          			E(Editor,{ref:"left",data:chinese,toolbarHeight:240,setOrder:this.setOrder,
+          				clearHeight:this.clearHeight,side:"left",master:this.state.master,
           				heights:this.state.leftheights,onUpdate:this.onUpdate})),
           E("span",{style:{flex:1}}, 
-          	E(Editor,{ref:"right",data:tibetan,toolbarHeight:240,
-          		clearHeight:this.clearHeight,
+          	E(Editor,{ref:"right",data:tibetan,toolbarHeight:240,setOrder:this.setOrder,
+          		clearHeight:this.clearHeight,side:"right",master:this.state.master,
           		heights:this.state.rightheights,onUpdate:this.onUpdate}))
       )
   }

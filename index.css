@@ -4,3 +4,4 @@ body {margin:0px;}
 .hl0 {color:red;}
 
 span[contentEditable="true"] {background:pink}
+input[checked="true"] {background:pink}
